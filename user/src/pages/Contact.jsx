@@ -1,0 +1,163 @@
+"use client";
+
+import WebLayout from "@/layout/WebLayout";
+
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
+
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+import { Mail, Phone, MapPin } from "lucide-react";
+
+export default function Contact() {
+  return (
+    <WebLayout>
+      {/* ======================= HERO BANNER ======================= */}
+      <section className="relative w-full h-[460px] overflow-hidden bg-white-100">
+        <img
+          src="Safety.webp"
+          className="absolute inset-0 mt-20 w-500 h-170 object-cover"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 to-black/70"></div>
+
+        <div className="relative z-20 flex flex-col items-center justify-center h-full text-white px-4">
+          <h1 className="text-5xl font-bold mb-3 tracking-wide drop-shadow-lg">
+            Contact Us
+          </h1>
+          <p className="text-lg opacity-90">
+            We’re here to help you plan your next adventure.
+          </p>
+        </div>
+      </section>
+
+      {/* ======================= CONTACT & FORM ======================= */}
+      <section className="container mx-auto px-4 py-20 grid grid-cols-1 lg:grid-cols-2 gap-14">
+        {/* Left Cards */}
+        <div className="space-y-6">
+          {/* Card Template */}
+          {[ 
+            { icon: Mail, title: "Email Us", value: "info@explorepakistan.com" },
+            { icon: Phone, title: "Call Us", value: "+92 300 0000000" },
+            { icon: MapPin, title: "Visit Us", value: "Arfa Tower, Lahore, Pakistan" },
+          ].map((item, index) => (
+            <Card
+              key={index}
+              className="shadow-lg backdrop-blur-xl bg-white/80 border border-white/40 hover:shadow-2xl transition-all duration-300"
+            >
+              <CardHeader className="flex flex-row items-center gap-4">
+                <item.icon className="w-10 h-10 p-2 rounded-full bg-primary/10 text-primary" />
+                <div>
+                  <CardTitle className="text-xl">{item.title}</CardTitle>
+                  <CardDescription className="text-base mt-1">
+                    {item.value}
+                  </CardDescription>
+                </div>
+              </CardHeader>
+            </Card>
+          ))}
+        </div>
+
+        {/* Right Contact Form */}
+        <Card className="shadow-xl border border-gray-200 rounded-xl">
+          <CardHeader>
+            <CardTitle className="text-2xl">Send Us a Message</CardTitle>
+            <CardDescription>
+              Our team will get back to you within 24 hours.
+            </CardDescription>
+          </CardHeader>
+
+          <CardContent className="space-y-5 mt-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <Input placeholder="Full Name" className="h-12" />
+              <Input placeholder="Phone Number" className="h-12" />
+            </div>
+
+            <Input placeholder="Email Address" type="email" className="h-12" />
+            <Textarea
+              placeholder="Write your message..."
+              rows={5}
+              className="resize-none"
+            />
+
+            <Button className="w-full h-12 bg-green-600 hover:bg-green-700 text-lg font-medium">
+              Send Message
+            </Button>
+          </CardContent>
+        </Card>
+      </section>
+
+      {/* ======================= FAQ SECTION ======================= */}
+      <section className="container mx-auto px-4 py-16">
+        <h2 className="text-4xl font-bold text-center mb-10">
+          Frequently Asked Questions
+        </h2>
+
+        <Accordion
+          type="single"
+          collapsible
+          className="w-full max-w-3xl mx-auto space-y-3"
+        >
+          <AccordionItem value="item-1" className="border rounded-lg px-4">
+            <AccordionTrigger className="text-lg">
+              When is the best time to visit?
+            </AccordionTrigger>
+            <AccordionContent className="text-gray-700">
+              The summer season (June–September) provides ideal temperatures and
+              breathtaking views. Spring and autumn are perfect for peaceful
+              exploration with pleasant weather.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-2" className="border rounded-lg px-4">
+            <AccordionTrigger className="text-lg">
+              Do you offer group discounts?
+            </AccordionTrigger>
+            <AccordionContent className="text-gray-700">
+              Yes! Groups of 8+ enjoy discounted pricing. We also offer special
+              packages for corporate or student tours.
+            </AccordionContent>
+          </AccordionItem>
+
+          <AccordionItem value="item-3" className="border rounded-lg px-4">
+            <AccordionTrigger className="text-lg">
+              What’s included in the tour price?
+            </AccordionTrigger>
+            <AccordionContent className="text-gray-700">
+              Accommodation, transport, local guides, and meals are included.
+              Some optional activities have additional costs.
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
+      </section>
+
+      {/* ======================= MAP SECTION ======================= */}
+      <section className="container mx-auto px-4 pb-24">
+        <h2 className="text-4xl font-bold text-center mb-8">Find Us</h2>
+
+        <Card className="overflow-hidden shadow-xl rounded-2xl border border-gray-200">
+          <iframe
+            title="Arfa Tower Map"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13611.01962830055!2d74.317488!3d31.481210!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391905bda2f42c0f%3A0xaea46777dae1f7a0!2sArfa%20Software%20Technology%20Park!5e0!3m2!1sen!2sPK!4v1700000000000"
+            width="100%"
+            height="430"
+            allowFullScreen=""
+            loading="lazy"
+          ></iframe>
+        </Card>
+      </section>
+    </WebLayout>
+  );
+}
