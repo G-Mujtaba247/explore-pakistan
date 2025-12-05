@@ -5,7 +5,6 @@ import {
   AccordionTrigger,
   AccordionContent,
 } from "@/components/ui/accordion";
-import WebLayout from "../layout/WebLayout";
 
 export default function FAQ() {
   const faqs = [
@@ -37,7 +36,7 @@ export default function FAQ() {
   ];
 
   return (
-    <WebLayout>
+    <>
     <section className="w-full max-w-4xl mt-10 mx-auto py-16 px-4">
       {/* Main Heading */}
       <h2 className="text-4xl font-bold text-center">Questions?</h2>
@@ -76,6 +75,6 @@ export default function FAQ() {
         </button>
       </div>
     </section>
-    </WebLayout>
+    </>
   );
 }

@@ -1,79 +1,203 @@
 import React from "react";
-import { ArrowRight, Box } from "lucide-react";
+import { Star } from "lucide-react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { AspectRatio } from "@/components/ui/aspect-ratio";
+import { Separator } from "@/components/ui/separator";
 import WebLayout from "../layout/WebLayout";
-import TravelDeals from "../components/TravelDeals";
 
-const toursData = [
-  { id: 1, title: "Mountain escape near Islamabad", subtitle: "Murree", description: "Cool pine forests and scenic views await in this hill station.", image: "/image1.jpg", height: "h-[500px]", column: 1 },
-  { id: 2, title: "Swat Valley adventure", subtitle: "Swat Valley", description: "Pristine valleys and river trails. Discover emerald waters and ancient culture in this northern gem.", image: "/Sawat.jpg", height: "h-[350px]", column: 1 },
+// ------------------ DATA ------------------
 
-  { id: 3, title: "Explore", subtitle: "Naran Kaghan lakes", description: "Alpine lakes and mountain peaks", image: "/image2.avif", height: "h-[350px]", column: 2 },
-  { id: 4, title: "Explore", subtitle: "Chitral", description: "Crystal clear waters surrounded by towering peaks and dense forests. Remote mountain wilderness", image: "/Chitral.jpg", height: "h-[500px]", column: 2 },
-
-  { id: 5, title: "Explore", subtitle: "Lahore heritage tour", description: "Experience untouched valleys and traditional culture in this frontier region. Historic cities and monuments", image: "/Lahore.jpg", height: "h-[500px]", column: 3 },
-  { id: 6, title: "Walk through centuries of history in Pakistan's cultural heart.", subtitle: "Multan spiritual journey", description: "Explore", image: "/Multan.jpg", height: "h-[350px]", column: 3 }
+const upcomingTours = [
+  {
+    id: 1,
+    title: "Skardu Valley",
+    image: "/skardu.jpg",
+    description: "Experience towering peaks and serene landscapes."
+  },
+  {
+    id: 2,
+    title: "Kumrat Forest",
+    image: "/kumrat.jpg",
+    description: "A pristine valley filled with thick forests and clear rivers."
+  },
+  {
+    id: 3,
+    title: "Gwadar Beach Escape",
+    image: "/gawadar.png",
+    description: "Sandy beaches, crystal-clear water and catchy sunsets."
+  }
 ];
 
-// Reusable card component
-const TourCard = ({ tour }) => {
-  const actionText =
-    tour.title === "Explore" || tour.description === "Explore"
-      ? "View details"
-      : "Explore";
+const recentTours = [
+  {
+    id: 1,
+    title: "Hunza Autumn Experience",
+    image: "/hunza.jpg",
+    rating: 5,
+    description: "Golden trees, crisp air and peaceful atmosphere."
+  },
+  {
+    id: 2,
+    title: "Fairy Meadows Trek",
+    image: "/nanga.jpg",
+    rating: 4,
+    description: "Walk through lush meadows with Nanga Parbat at your side."
+  },
+  {
+    id: 3,
+    title: "Neelum Valley Tour",
+    image: "/neelum.jpg",
+    rating: 4,
+    description: "Turquoise rivers, quiet villages and mountains."
+  },
+  {
+    id: 4,
+    title: "Swat Spring Retreat",
+    image: "/sawatSpring.jpg",
+    rating: 5,
+    description: "Blooming valleys and peaceful rivers to refresh your soul."
+  },
+  {
+    id: 5,
+    title: "Naran Kaghan Adventure",
+    image: "/Kaghan.jpg",
+    rating: 4,
+    description: "Lakes, mountains, and scenic routes all in one tour."
+  },
+  {
+    id: 6,
+    title: "Ratti Gali Lake Hike",
+    image: "/ratti.jpg",
+    rating: 5,
+    description: "A magical lake surrounded by alpine meadows."
+  },
+  {
+    id: 7,
+    title: "Chitral Kalash Heritage Trip",
+    image: "/kalash.jpg",
+    rating: 5,
+    description: "Experience tribal culture and mountain beauty."
+  },
+  {
+    id: 8,
+    title: "Malam Jabba Ski Tour",
+    image: "/mallam.jpg",
+    rating: 4,
+    description: "Enjoy skiing, chair lifts and snowy landscapes."
+  },
+  {
+    id: 9,
+    title: "Ziarat Quaid Residency Tour",
+    image: "/ziarrat.jpg",
+    rating: 4,
+    description: "Juniper forests and peaceful landscapes."
+  },
+  {
+    id: 10,
+    title: "Ormara Beach Camping",
+    image: "/omarra.webp",
+    rating: 5,
+    description: "Star-gazing, bonfire and unforgettable beach nights."
+  }
+];
 
+// Star Rating Component
+const StarRating = ({ rating }) => (
+  <div className="flex gap-1">
+    {[...Array(5)].map((_, i) => (
+      <Star
+        key={i}
+        size={18}
+        className={i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}
+      />
+    ))}
+  </div>
+);
+
+// ------------------ COMPONENT ------------------
+
+const Tour = () => {
   return (
-    <div className={`relative group overflow-hidden rounded-xl ${tour.height} w-70 shadow-lg transition-transform duration-300 hover:scale-105`}>
-      <img src={tour.image} alt={tour.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-
-      <div className="absolute inset-0 bg-black/60 group-hover:bg-black/70 transition-colors" />
-
-      <div className="absolute inset-0 p-8 flex flex-col justify-end text-white">
-        <div className="space-y-2">
-          {tour.subtitle && <p className="text-sm font-semibold uppercase opacity-80">{tour.subtitle}</p>}
-          <h3 className="text-3xl font-bold">{tour.title}</h3>
-          <p className="text-base opacity-90 line-clamp-3">{tour.description}</p>
-
-          <div className="pt-2 flex items-center gap-2 text-sm font-medium cursor-pointer hover:underline">
-            {actionText} <ArrowRight size={16} />
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const Tours = () => {
-  // Create 3 columns dynamically
-  const columns = [1, 2, 3].map(col =>
-    toursData.filter(tour => tour.column === col)
-  );
-
-  return (
+    <>
     <WebLayout>
-    <section className="py-16 px-4 max-w-7xl mt-10 mx-auto">
-      {/* Header */}
-      <div className="text-center mb-12">
-        <p className="text-sm font-bold uppercase tracking-wider mb-2">Featured</p>
-        <h2 className="text-4xl md:text-5xl font-bold mb-4">Popular tours this season</h2>
-        <p className="text-gray-600 max-w-2xl mx-auto">
-          Handpicked destinations across Pakistan's most stunning landscapes.
-        </p>
-      </div>
+    <div className="max-w-7xl mx-auto space-y-6 pt-16  py-16 mt-10">
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {columns.map((col, index) => (
-          <div key={index} className="flex flex-col gap-6">
-            {col.map(tour => (
-              <TourCard key={tour.id} tour={tour} />
-            ))}
-          </div>
-        ))}
-      </div>
-    </section>
-    <TravelDeals />
+      {/* ---------- UPCOMING TOURS ---------- */}
+      <section>
+        <h2 className="text-4xl font-bold mb-4 text-center">Upcoming Tours</h2>
+        <p className="text-center text-gray-600 mb-10">
+          Exciting new destinations are almost ready for you to explore.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {upcomingTours.map(tour => (
+            <Card
+              key={tour.id}
+              className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border rounded-xl p-0 m-0 pb-4">
+              <AspectRatio ratio={16 / 9}>
+                <img
+                  src={tour.image}
+                  alt={tour.title}
+                  className="w-full h-full object-cover rounded-t-xl"
+                />
+              </AspectRatio>
+
+              <CardHeader>
+                <CardTitle className="text-xl">{tour.title}</CardTitle>
+                <CardDescription>{tour.description}</CardDescription>
+              </CardHeader>
+
+              <CardContent>
+                <Button className="w-full bg-green-600 text-white hover:bg-green-700">
+                  Coming Soon
+                </Button>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <Separator className="my-10" />
+
+      {/* ---------- RECENT TOURS ---------- */}
+      <section>
+        <h2 className="text-4xl font-bold mb-4 text-center">Recent Tours</h2>
+        <p className="text-center text-gray-600 mb-10">
+          Here's what travelers recently explored with us.
+        </p>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 pb-16">
+          {recentTours.map(tour => (
+            <Card
+              key={tour.id}
+              className="overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 border rounded-xl"
+            >
+              <AspectRatio ratio={16 / 9}>
+                <img
+                  src={tour.image}
+                  alt={tour.title}
+                  className="w-full h-full object-cover rounded-t-xl"
+                />
+              </AspectRatio>
+
+              <CardHeader>
+                <CardTitle className="text-lg font-semibold">{tour.title}</CardTitle>
+                <CardDescription>{tour.description}</CardDescription>
+              </CardHeader>
+
+              <CardContent>
+                <StarRating rating={tour.rating} />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+    </div>
     </WebLayout>
+    </>
   );
 };
 
-export default Tours;
+export default Tour;

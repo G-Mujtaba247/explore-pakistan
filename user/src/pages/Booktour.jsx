@@ -28,7 +28,7 @@ const Booktour = () => {
   {
   name: "Islamabad",
   image: "margalla.jpg",
-  description: "The serene capital city known for its Margalla Hills, modern architecture, and peaceful ambiance.",
+  description: "The serene capital city known for its Margalla Hills, modern architecture, and ambiance.",
   price: "PKR 18,000 (solo)"
 },
   {
@@ -62,7 +62,7 @@ const Booktour = () => {
 
   return (
     <WebLayout>
-      <div className="min-h-screen bg-background text-foreground pb-20">
+      <div className="min-h-screen bg-background text-foreground pb-20 pl-4 pr-4">
         
         {/* Page Heading */}
         <section className="text-center pt-28 pb-18 px-4">

@@ -44,9 +44,9 @@ export default function Contact() {
       </section>
 
       {/* ======================= CONTACT & FORM ======================= */}
-      <section className="container mx-auto px-4 py-20 grid grid-cols-1 lg:grid-cols-2 gap-14">
+      <section className="container m-auto  pl-8 pr-8 py-20 grid grid-cols-1 lg:grid-cols-2 gap-14">
         {/* Left Cards */}
-        <div className="space-y-6">
+        <div className="space-y-6 ">
           {/* Card Template */}
           {[ 
             { icon: Mail, title: "Email Us", value: "info@explorepakistan.com" },
@@ -55,7 +55,7 @@ export default function Contact() {
           ].map((item, index) => (
             <Card
               key={index}
-              className="shadow-lg backdrop-blur-xl bg-white/80 border border-white/40 hover:shadow-2xl transition-all duration-300"
+              className="shadow-lg backdrop-blur-xl bg-white/80 border border-white/40 hover:shadow-2xl transition-all duration-300 p-8"
             >
               <CardHeader className="flex flex-row items-center gap-4">
                 <item.icon className="w-10 h-10 p-2 rounded-full bg-primary/10 text-primary" />

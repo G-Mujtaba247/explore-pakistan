@@ -1,7 +1,7 @@
 import React from 'react'
 import WebLayout from '../layout/WebLayout'
 import Hero from '../components/Hero'
-import Tours from './Tours'
+import Explore from '../components/Explore'
 import Benefits from '../components/Benefits'
 import TravelDeals from '../components/TravelDeals'
 import Reviews from '../components/Reviews'
@@ -12,7 +12,7 @@ const Home = () => {
   return (
     <WebLayout>
       <Hero />
-      <Tours />
+      <Explore />
       <Benefits />
       <BookAdv />
       <TravelDeals />
