@@ -6,21 +6,18 @@ import {
   navigationMenuTriggerStyle,
 } from "../components/ui/navigation-menu";
 import { cn } from "@/lib/utils";
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 import { Button } from "./ui/button";
 import { Menu, X } from "lucide-react"; // ICONS
-import Login from "../pages/Auth/Login";
-import SignUp from "../pages/Auth/SignUp";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
-   const [showLogin, setShowLogin] = useState(false);
-   const [showSignup, setShowSignup] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="fixed w-full top-0 left-0 z-50 bg-white/80 backdrop-blur-lg border-b shadow-sm">
       <div className="flex items-center justify-between px-4 sm:px-6 md:px-10 py-4">
-
+        
         {/* --------- LEFT: Logo --------- */}
         <div className="flex items-center gap-3">
           <img
@@ -101,25 +98,16 @@ const Navbar = () => {
 
         {/* --------- DESKTOP BUTTONS --------- */}
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="secondary" onClick={() => setShowSignup(true)} >Register</Button>
-          {showSignup && (
-        <div className="mt-6">
-          <SignUp />
-        </div>
-      )}
-         <Button
-        onClick={() => setShowLogin(true)}
-        className="bg-green-600 hover:bg-green-700 text-white"
-      >
-        Login
-      </Button>
+          <Button variant="secondary" onClick={() => navigate("/signup")}>
+            Register
+          </Button>
 
-      {/* Show Login Component */}
-      {showLogin && (
-        <div className="mt-6">
-          <Login />
-        </div>
-      )}
+          <Button
+            onClick={() => navigate("/login")}
+            className="bg-green-600 hover:bg-green-700 text-white"
+          >
+            Login
+          </Button>
         </div>
 
         {/* --------- MOBILE MENU ICON --------- */}
@@ -177,8 +165,24 @@ const Navbar = () => {
 
           {/* MOBILE BUTTONS */}
           <div className="pt-2 flex flex-col gap-3">
-            <Button variant="secondary" className="w-full">Register</Button>
-            <Button className="bg-green-600 hover:bg-green-700 text-white w-full">
+            <Button
+              variant="secondary"
+              className="w-full"
+              onClick={() => {
+                navigate("/signup");
+                setOpen(false);
+              }}
+            >
+              Register
+            </Button>
+
+            <Button
+              className="bg-green-600 hover:bg-green-700 text-white w-full"
+              onClick={() => {
+                navigate("/login");
+                setOpen(false);
+              }}
+            >
               Login
             </Button>
           </div>
