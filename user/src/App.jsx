@@ -4,12 +4,13 @@ import Home from "@/pages/Home"
 import About from "@/pages/About"
 import Contact from "@/pages/Contact"
 import Tours from './pages/Tours'
-import Booktour from './pages/BookTour'
 import Terms from './pages/safety/Terms'
 import Policies from './pages/safety/Policies'
 import FAQ from './components/FAQ'
 import Login from './pages/Auth/Login'
 import SignUp from './pages/Auth/SignUp'
+import Booking from './pages/Booking'
+import BookTour from './components/Bookings/BookTour'
 
 
 
@@ -20,13 +21,16 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/tours" element={<Tours />} />
-        <Route path="/booktour" element={<Booktour />} />
+        <Route path="/booking" element={<Booking />} />
+        <Route path="/booktour" element={<BookTour />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/policies" element={<Policies />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        
+
 
 
       </Routes>

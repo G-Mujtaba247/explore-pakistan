@@ -1,7 +1,9 @@
 import React from 'react';
 import { Button } from './ui/button';
+import { useNavigate } from "react-router";
 
 const BookAdv = () => {
+    const navigate = useNavigate();
     return (
         <section className="py-10 px-4 max-w-7xl mx-30 mb-0 bg-blue-50">
             <div className="relative w-full h-[350px] rounded-2xl overflow-hidden flex items-center justify-center">
@@ -25,10 +27,10 @@ const BookAdv = () => {
 
                     {/* CTA Buttons */}
                     <div className="flex flex-wrap gap-4 justify-center">
-                        <Button className="bg-white text-black hover:bg-gray-100 px-8 py-3 text-base font-medium rounded-md shadow-lg">
+                        <Button onClick={()=> navigate("/tours")} className="bg-white text-black hover:bg-green-700 px-8 py-3 hover:text-white text-base font-medium rounded-md shadow-lg">
                             Search
                         </Button>
-                        <Button className="bg-black text-white hover:bg-gray-800 px-8 py-3 text-base font-medium rounded-md shadow-lg">
+                        <Button onClick={()=> navigate("/booking")} className="bg-green-600 text-white hover:bg-green-700 px-8 py-3 text-base font-medium rounded-md shadow-lg">
                             Browse
                         </Button>
                     </div>

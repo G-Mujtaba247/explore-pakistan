@@ -1,7 +1,10 @@
 import React from 'react';
 import { Button } from "./ui/button";
+import { useNavigate } from "react-router";
 
 const Hero = () => {
+ const navigate = useNavigate();
+
     return (
         <div className="relative w-full h-[600px] md:h-[700px] flex items-center justify-center overflow-hidden">
             {/* Background Image */}
@@ -30,10 +33,10 @@ const Hero = () => {
                 </p>
 
                 <div className="flex flex-col sm:flex-row gap-4 mt-4">
-                    <Button className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-base font-medium rounded-lg border-0">
+                    <Button onClick={() => navigate("/tours")} className="bg-white text-black hover:bg-green-700 hover:text-white px-8 py-6 text-base font-medium rounded-lg border-0">
                         Search tours
                     </Button>
-                    <Button variant="outline" className="bg-black/30 text-white border-white/30 hover:bg-black/50 hover:text-white px-8 py-6 text-base font-medium rounded-lg backdrop-blur-sm">
+                    <Button onClick={() => navigate("/about")}  variant="outline" className="bg-black/30 text-white border-white/30 hover:bg-black/50 hover:text-white px-8 py-6 text-base font-medium rounded-lg backdrop-blur-sm">
                         Learn more
                     </Button>
                 </div>

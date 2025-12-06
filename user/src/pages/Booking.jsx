@@ -3,9 +3,10 @@ import WebLayout from "../layout/WebLayout";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import TravelDeals from "../components/TravelDeals";
+import { useNavigate } from "react-router";
 
 
-const Booktour = () => {
+const Booking = () => {
   const tours = [
   {
     name: "Hunza Valley",
@@ -58,7 +59,7 @@ const Booktour = () => {
 },
 ];
 
-
+const navigate = useNavigate();
 
   return (
     <WebLayout>
@@ -100,7 +101,12 @@ const Booktour = () => {
 
               {/* Button */}
               <CardFooter>
-                <Button className="w-full bg-green-600 hover:bg-green-700">Book Now</Button>
+                <Button onClick={() => navigate("/booktour", { 
+    state: { 
+      name: tour.name, 
+      price: tour.price 
+    } 
+  })} className="w-full bg-green-600 hover:bg-green-700">Book Now</Button>
               </CardFooter>
 
             </Card>
@@ -113,4 +119,4 @@ const Booktour = () => {
   );
 };
 
-export default Booktour;
+export default Booking;

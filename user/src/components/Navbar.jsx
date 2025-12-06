@@ -70,7 +70,7 @@ const Navbar = () => {
 
               <NavigationMenuItem>
                 <NavLink
-                  to="/booktour"
+                  to="/booking"
                   className={cn(
                     navigationMenuTriggerStyle(),
                     "hover:bg-accent/40 rounded-full px-4 py-2"
@@ -148,7 +148,7 @@ const Navbar = () => {
           </NavLink>
 
           <NavLink
-            to="/booktour"
+            to="/booking"
             onClick={() => setOpen(false)}
             className="block text-lg font-medium text-gray-700 hover:text-green-600"
           >
