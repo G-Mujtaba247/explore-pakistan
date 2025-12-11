@@ -3,20 +3,20 @@ import { ArrowRight, Box } from "lucide-react";
 import TravelDeals from "../components/TravelDeals";
 
 const toursData = [
-  { id: 1, title: "Mountain escape near Islamabad", subtitle: "Murree", description: "Cool pine forests and scenic views await in this hill station.", image: "/image1.jpg", height: "h-[500px]", column: 1 },
-  { id: 2, title: "Swat Valley adventure", subtitle: "Swat Valley", description: "Pristine valleys and river trails. Discover emerald waters and ancient culture in this northern gem.", image: "/Sawat.jpg", height: "h-[350px]", column: 1 },
+  { id: 1, title: "Mountain escape near Islamabad", subtitle: "Murree", description: "Cool pine forests and scenic views await in this hill station.", image: "/image1.jpg", height: "h-[550px]", column: 1 },
+  { id: 2, title: "Swat Valley adventure", subtitle: "Swat Valley", description: "Pristine valleys and river trails. Discover emerald waters and ancient culture in this northern gem.", image: "/Sawat.jpg", height: "h-[400px]", column: 1 },
 
-  { id: 3, title: "Explore", subtitle: "Naran Kaghan lakes", description: "Alpine lakes and mountain peaks", image: "/image2.avif", height: "h-[350px]", column: 2 },
-  { id: 4, title: "Explore", subtitle: "Chitral", description: "Crystal clear waters surrounded by towering peaks and dense forests. Remote mountain wilderness", image: "/Chitral.jpg", height: "h-[500px]", column: 2 },
+  { id: 3, title: "Explore", subtitle: "Naran Kaghan lakes", description: "Alpine lakes and mountain peaks", image: "/image2.avif", height: "h-[400px]", column: 2 },
+  { id: 4, title: "Explore", subtitle: "Chitral", description: "Crystal clear waters surrounded by towering peaks and dense forests. Remote mountain wilderness", image: "/Chitral.jpg", height: "h-[550px]", column: 2 },
 
-  { id: 5, title: "Explore", subtitle: "Lahore heritage tour", description: "Experience untouched valleys and traditional culture in this frontier region. Historic cities and monuments", image: "/Lahore.jpg", height: "h-[500px]", column: 3 },
-  { id: 6, title: "Walk through centuries of history in Pakistan's cultural heart.", subtitle: "Multan spiritual journey", description: "Explore", image: "/Multan.jpg", height: "h-[350px]", column: 3 }
+  { id: 5, title: "Explore", subtitle: "Lahore heritage tour", description: "Experience untouched valleys and traditional culture in this frontier region. Historic cities and monuments", image: "/Lahore.jpg", height: "h-[550px]", column: 3 },
+  { id: 6, title: "Walk through centuries of history in Pakistan's cultural heart.", subtitle: "Multan spiritual journey", description: "Explore", image: "/Multan.jpg", height: "h-[400px]", column: 3 }
 ];
 
 // Reusable card component
 const TourCard = ({ tour }) => {
   return (
-    <div className={`relative group overflow-hidden rounded-xl ${tour.height} w-70 shadow-lg transition-transform duration-300 hover:scale-105`}>
+    <div className={`relative group overflow-hidden rounded-xl ${tour.height} w-100 shadow-lg transition-transform duration-300 hover:scale-105`}>
       <img
         src={tour.image}
         alt={tour.title}

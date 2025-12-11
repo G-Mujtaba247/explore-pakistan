@@ -4,8 +4,8 @@ import Footer from "../components/Footer"
 
 const WebLayout = ({ children }) => {
     return (
-        <div className="min-h-screen flex flex-col">
-            <Navbar />
+        <div className="min-h-screen flex flex-col ">
+            <Navbar className="bg-white/80" />
             <div>
                 {children}
             </div>

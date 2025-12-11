@@ -15,9 +15,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="fixed w-full top-0 left-0 z-50 bg-white/80 backdrop-blur-lg border-b shadow-sm">
+    <div className="fixed w-full top-0 left-0 z-50 bg-[#E4E6E4] backdrop-blur-lg border-b shadow-sm">
       <div className="flex items-center justify-between px-4 sm:px-6 md:px-10 py-4">
-        
+
         {/* --------- LEFT: Logo --------- */}
         <div className="flex items-center gap-3">
           <img
@@ -35,9 +35,11 @@ const Navbar = () => {
               <NavigationMenuItem>
                 <NavLink
                   to="/"
-                  className={cn(
+                  end
+                  className={({ isActive }) => cn(
                     navigationMenuTriggerStyle(),
-                    "hover:bg-accent/40 rounded-full px-4 py-2"
+                    "hover:bg-accent/40 rounded-full px-4 py-2",
+                    isActive && "bg-green-100 text-green-700"
                   )}
                 >
                   Home
@@ -47,9 +49,10 @@ const Navbar = () => {
               <NavigationMenuItem>
                 <NavLink
                   to="/about"
-                  className={cn(
+                  className={({ isActive }) => cn(
                     navigationMenuTriggerStyle(),
-                    "hover:bg-accent/40 rounded-full px-4 py-2"
+                    "hover:bg-accent/40 rounded-full px-4 py-2",
+                    isActive && "bg-green-100 text-green-700"
                   )}
                 >
                   About
@@ -59,9 +62,10 @@ const Navbar = () => {
               <NavigationMenuItem>
                 <NavLink
                   to="/tours"
-                  className={cn(
+                  className={({ isActive }) => cn(
                     navigationMenuTriggerStyle(),
-                    "hover:bg-accent/40 rounded-full px-4 py-2"
+                    "hover:bg-accent/40 rounded-full px-4 py-2",
+                    isActive && "bg-green-100 text-green-700"
                   )}
                 >
                   Tours
@@ -71,9 +75,10 @@ const Navbar = () => {
               <NavigationMenuItem>
                 <NavLink
                   to="/booking"
-                  className={cn(
+                  className={({ isActive }) => cn(
                     navigationMenuTriggerStyle(),
-                    "hover:bg-accent/40 rounded-full px-4 py-2"
+                    "hover:bg-accent/40 rounded-full px-4 py-2",
+                    isActive && "bg-green-100 text-green-700"
                   )}
                 >
                   Bookings
@@ -83,9 +88,10 @@ const Navbar = () => {
               <NavigationMenuItem>
                 <NavLink
                   to="/contact"
-                  className={cn(
+                  className={({ isActive }) => cn(
                     navigationMenuTriggerStyle(),
-                    "hover:bg-accent/40 rounded-full px-4 py-2"
+                    "hover:bg-accent/40 rounded-full px-4 py-2",
+                    isActive && "bg-green-100 text-green-700"
                   )}
                 >
                   Contact
@@ -125,8 +131,12 @@ const Navbar = () => {
 
           <NavLink
             to="/"
+            end
             onClick={() => setOpen(false)}
-            className="block text-lg font-medium text-gray-700 hover:text-green-600"
+            className={({ isActive }) => cn(
+              "block text-lg font-medium text-gray-700 hover:text-green-600 px-3 py-2 rounded-md",
+              isActive && "bg-green-100 text-green-700"
+            )}
           >
             Home
           </NavLink>
@@ -134,7 +144,10 @@ const Navbar = () => {
           <NavLink
             to="/about"
             onClick={() => setOpen(false)}
-            className="block text-lg font-medium text-gray-700 hover:text-green-600"
+            className={({ isActive }) => cn(
+              "block text-lg font-medium text-gray-700 hover:text-green-600 px-3 py-2 rounded-md",
+              isActive && "bg-green-100 text-green-700"
+            )}
           >
             About
           </NavLink>
@@ -142,7 +155,10 @@ const Navbar = () => {
           <NavLink
             to="/tours"
             onClick={() => setOpen(false)}
-            className="block text-lg font-medium text-gray-700 hover:text-green-600"
+            className={({ isActive }) => cn(
+              "block text-lg font-medium text-gray-700 hover:text-green-600 px-3 py-2 rounded-md",
+              isActive && "bg-green-100 text-green-700"
+            )}
           >
             Tours
           </NavLink>
@@ -150,7 +166,10 @@ const Navbar = () => {
           <NavLink
             to="/booking"
             onClick={() => setOpen(false)}
-            className="block text-lg font-medium text-gray-700 hover:text-green-600"
+            className={({ isActive }) => cn(
+              "block text-lg font-medium text-gray-700 hover:text-green-600 px-3 py-2 rounded-md",
+              isActive && "bg-green-100 text-green-700"
+            )}
           >
             Bookings
           </NavLink>
@@ -158,7 +177,10 @@ const Navbar = () => {
           <NavLink
             to="/contact"
             onClick={() => setOpen(false)}
-            className="block text-lg font-medium text-gray-700 hover:text-green-600"
+            className={({ isActive }) => cn(
+              "block text-lg font-medium text-gray-700 hover:text-green-600 px-3 py-2 rounded-md",
+              isActive && "bg-green-100 text-green-700"
+            )}
           >
             Contact
           </NavLink>
