@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { Trash2 } from 'lucide-react';
 
 export default function Settings() {
     return (
@@ -31,7 +32,7 @@ export default function Settings() {
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">Email</Label>
-                            <Input id="email" defaultValue="admin@example.com" />
+                            <Input id="email" defaultValue="admin@explorepakistan.com" />
                         </div>
                         <Button>Save Changes</Button>
                     </CardContent>
@@ -49,19 +50,10 @@ export default function Settings() {
                             <div className="space-y-0.5">
                                 <Label className="text-base">Email Notifications</Label>
                                 <p className="text-sm text-muted-foreground">
-                                    Receive emails about new repair requests.
+                                    Receive emails about new booking requests.
                                 </p>
                             </div>
                             <input type="checkbox" className="h-4 w-4 accent-primary" defaultChecked />
-                        </div>
-                        <div className="flex items-center justify-between rounded-lg border p-4">
-                            <div className="space-y-0.5">
-                                <Label className="text-base">Marketing Emails</Label>
-                                <p className="text-sm text-muted-foreground">
-                                    Receive emails about new features and offers.
-                                </p>
-                            </div>
-                            <input type="checkbox" className="h-4 w-4 accent-primary" />
                         </div>
                     </CardContent>
                 </Card>
@@ -73,9 +65,9 @@ export default function Settings() {
 }
 
 function WebsiteSettings() {
-    const [socials, setSocials] = React.useState([
-        { id: 1, platform: 'Facebook', url: 'https://facebook.com' },
-        { id: 2, platform: 'Twitter', url: 'https://twitter.com' },
+    const [socials, setSocials] = useState([
+        { id: 1, platform: 'Facebook', url: 'https://facebook.com/explorepakistan' },
+        { id: 2, platform: 'Instagram', url: 'https://instagram.com/explorepakistan' },
     ]);
 
     const addSocial = () => {
@@ -101,7 +93,7 @@ function WebsiteSettings() {
             <CardContent className="space-y-6">
                 <div className="space-y-2">
                     <Label htmlFor="copyright">Copyright Text</Label>
-                    <Input id="copyright" defaultValue="© 2024 RepairCMS. All rights reserved." />
+                    <Input id="copyright" defaultValue="© 2025 Explore Pakistan. All rights reserved." />
                 </div>
 
                 <div className="space-y-4">
@@ -136,4 +128,3 @@ function WebsiteSettings() {
         </Card>
     );
 }
-import { Trash2 } from 'lucide-react';

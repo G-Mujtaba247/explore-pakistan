@@ -13,6 +13,12 @@ import { Menu, X } from "lucide-react"; // ICONS
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    navigate('/login');
+  };
 
   return (
     <div className="fixed w-full top-0 left-0 z-50 bg-[#E4E6E4] backdrop-blur-lg border-b shadow-sm">
@@ -72,18 +78,20 @@ const Navbar = () => {
                 </NavLink>
               </NavigationMenuItem>
 
-              <NavigationMenuItem>
-                <NavLink
-                  to="/booking"
-                  className={({ isActive }) => cn(
-                    navigationMenuTriggerStyle(),
-                    "hover:bg-accent/40 rounded-full px-4 py-2",
-                    isActive && "bg-green-100 text-green-700"
-                  )}
-                >
-                  Bookings
-                </NavLink>
-              </NavigationMenuItem>
+              {user && (
+                <NavigationMenuItem>
+                  <NavLink
+                    to="/booking"
+                    className={({ isActive }) => cn(
+                      navigationMenuTriggerStyle(),
+                      "hover:bg-accent/40 rounded-full px-4 py-2",
+                      isActive && "bg-green-100 text-green-700"
+                    )}
+                  >
+                    Bookings
+                  </NavLink>
+                </NavigationMenuItem>
+              )}
 
               <NavigationMenuItem>
                 <NavLink
@@ -104,16 +112,27 @@ const Navbar = () => {
 
         {/* --------- DESKTOP BUTTONS --------- */}
         <div className="hidden md:flex items-center gap-3">
-          <Button variant="secondary" onClick={() => navigate("/signup")}>
-            Register
-          </Button>
+          {!user ? (
+            <>
+              <Button variant="secondary" onClick={() => navigate("/signup")}>
+                Register
+              </Button>
 
-          <Button
-            onClick={() => navigate("/login")}
-            className="bg-green-600 hover:bg-green-700 text-white"
-          >
-            Login
-          </Button>
+              <Button
+                onClick={() => navigate("/login")}
+                className="bg-green-600 hover:bg-green-700 text-white"
+              >
+                Login
+              </Button>
+            </>
+          ) : (
+            <Button
+              onClick={handleLogout}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
+              Logout
+            </Button>
+          )}
         </div>
 
         {/* --------- MOBILE MENU ICON --------- */}
@@ -163,16 +182,18 @@ const Navbar = () => {
             Tours
           </NavLink>
 
-          <NavLink
-            to="/booking"
-            onClick={() => setOpen(false)}
-            className={({ isActive }) => cn(
-              "block text-lg font-medium text-gray-700 hover:text-green-600 px-3 py-2 rounded-md",
-              isActive && "bg-green-100 text-green-700"
-            )}
-          >
-            Bookings
-          </NavLink>
+          {user && (
+            <NavLink
+              to="/booking"
+              onClick={() => setOpen(false)}
+              className={({ isActive }) => cn(
+                "block text-lg font-medium text-gray-700 hover:text-green-600 px-3 py-2 rounded-md",
+                isActive && "bg-green-100 text-green-700"
+              )}
+            >
+              Bookings
+            </NavLink>
+          )}
 
           <NavLink
             to="/contact"
@@ -187,26 +208,40 @@ const Navbar = () => {
 
           {/* MOBILE BUTTONS */}
           <div className="pt-2 flex flex-col gap-3">
-            <Button
-              variant="secondary"
-              className="w-full"
-              onClick={() => {
-                navigate("/signup");
-                setOpen(false);
-              }}
-            >
-              Register
-            </Button>
+            {!user ? (
+              <>
+                <Button
+                  variant="secondary"
+                  className="w-full"
+                  onClick={() => {
+                    navigate("/signup");
+                    setOpen(false);
+                  }}
+                >
+                  Register
+                </Button>
 
-            <Button
-              className="bg-green-600 hover:bg-green-700 text-white w-full"
-              onClick={() => {
-                navigate("/login");
-                setOpen(false);
-              }}
-            >
-              Login
-            </Button>
+                <Button
+                  className="bg-green-600 hover:bg-green-700 text-white w-full"
+                  onClick={() => {
+                    navigate("/login");
+                    setOpen(false);
+                  }}
+                >
+                  Login
+                </Button>
+              </>
+            ) : (
+              <Button
+                className="bg-red-600 hover:bg-red-700 text-white w-full"
+                onClick={() => {
+                  handleLogout();
+                  setOpen(false);
+                }}
+              >
+                Logout
+              </Button>
+            )}
           </div>
         </div>
       )}

@@ -11,6 +11,7 @@ import Login from './pages/Auth/Login'
 import SignUp from './pages/Auth/SignUp'
 import Booking from './pages/Booking'
 import BookTour from './components/Bookings/BookTour'
+import ProtectedRoute from './components/ProtectedRoute'
 
 
 
@@ -21,15 +22,20 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/tours" element={<Tours />} />
-        <Route path="/booking" element={<Booking />} />
-        <Route path="/booktour" element={<BookTour />} />
+
+        {/* Protected Routes */}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/booking" element={<Booking />} />
+          <Route path="/booktour" element={<BookTour />} />
+        </Route>
+
         <Route path="/contact" element={<Contact />} />
         <Route path="/policies" element={<Policies />} />
         <Route path="/terms" element={<Terms />} />
         <Route path="/faq" element={<FAQ />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        
+
 
 
 

@@ -1,6 +1,9 @@
 import React, { useState } from "react";
+import axios from "axios";
+import { Link, useNavigate } from "react-router";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -9,6 +12,7 @@ const SignUp = () => {
   });
 
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Handle input change
   const handleChange = (e) => {
@@ -19,7 +23,7 @@ const SignUp = () => {
   };
 
   // Form submission logic
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Check required fields
@@ -35,11 +39,29 @@ const SignUp = () => {
     }
 
     setError("");
+    setLoading(true);
 
-    // Example logic (replace with your backend API request)
-    console.log("Signing up:", formData);
+    try {
+      const payload = {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password
+      };
 
-    alert("Signup successful!");
+      const res = await axios.post("http://localhost:5000/api/v1/user/register", payload);
+
+      if (res.data.status) {
+        alert("Signup successful! Please login.");
+        navigate("/login");
+      } else {
+        setError(res.data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Registration failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -115,17 +137,18 @@ const SignUp = () => {
           {/* Submit Button */}
           <button
             type="submit"
-            className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition"
+            disabled={loading}
+            className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition disabled:opacity-50"
           >
-            Sign Up
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
 
           {/* Login Link */}
           <p className="text-center text-sm text-gray-600 mt-2">
             Already have an account?{" "}
-            <a href="/login" className="text-blue-600 hover:underline">
+            <Link to="/login" className="text-blue-600 hover:underline">
               Login
-            </a>
+            </Link>
           </p>
         </form>
       </div>

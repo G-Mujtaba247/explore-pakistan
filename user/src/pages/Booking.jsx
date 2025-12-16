@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import WebLayout from "../layout/WebLayout";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -7,57 +8,24 @@ import { useNavigate } from "react-router";
 
 
 const Booking = () => {
-  const tours = [
-    {
-      name: "Hunza Valley",
-      image: "hunza.jpg",
-      description: "Snow-capped peaks, crystal-clear rivers, and breathtaking Karakoram landscapes.",
-      price: "PKR 35,000 (solo)"
-    },
-    {
-      name: "Skardu",
-      image: "skardu.jpg",
-      description: "Explore serene lakes, towering mountains, and the gateway to K2.",
-      price: "PKR 42,000 (solo)"
-    },
-    {
-      name: "Swat Valley",
-      image: "sawat1.jpg",
-      description: "The Switzerland of Pakistan—lush green valleys and peaceful rivers.",
-      price: "PKR 28,000 (solo)"
-    },
-    {
-      name: "Islamabad",
-      image: "margalla.jpg",
-      description: "The serene capital city known for its Margalla Hills, modern architecture, and ambiance.",
-      price: "PKR 18,000 (solo)"
-    },
-    {
-      name: "Kumrat Valley",
-      image: "kumrat.jpg",
-      description: "Tall deodar forests, riverside camping, and unforgettable wilderness views.",
-      price: "PKR 30,000 (solo)"
-    },
-    {
-      name: "Multan",
-      image: "multan1.jpg",
-      description: "The city of saints featuring stunning Sufi shrines, handicrafts, and historical landmarks.",
-      price: "PKR 20,000 (solo)"
-    },
+  const [tours, setTours] = useState([]);
 
-    {
-      name: "Gwadar",
-      image: "gwadar.jpeg",
-      description: "Golden beaches, blue waters, and serene sunsets on the Arabian coastline.",
-      price: "PKR 40,000 (solo)"
-    },
-    {
-      name: "Lahore Heritage",
-      image: "Lahore.jpg",
-      description: "Explore the rich Mughal history, majestic forts, and vibrant culture of Lahore.",
-      price: "PKR 22,000 (solo)"
-    },
-  ];
+  useEffect(() => {
+    const fetchTours = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const res = await axios.get("http://localhost:5000/api/v1/tours", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        if (res.data.status) {
+          setTours(res.data.tours);
+        }
+      } catch (error) {
+        console.error("Failed to fetch tours:", error);
+      }
+    };
+    fetchTours();
+  }, []);
 
   const navigate = useNavigate();
 
@@ -83,27 +51,28 @@ const Booking = () => {
               {/* Card Image */}
               <div className="h-48 w-full overflow-hidden">
                 <img
-                  src={tour.image}
-                  alt={tour.name}
-                  className="w-full h-full rounded-t-xl p-0 m-0"
+                  src={tour.image ? `http://localhost:5000/uploads/${tour.image}` : "https://placehold.co/600x400"}
+                  alt={tour.title}
+                  className="w-full h-full object-cover rounded-t-xl p-0 m-0"
                 />
               </div>
 
               {/* Card Content */}
               <CardHeader>
-                <h2 className="text-xl font-semibold">{tour.name}</h2>
+                <h2 className="text-xl font-semibold">{tour.title}</h2>
               </CardHeader>
 
               <CardContent className="space-y-3">
-                <p className="text-muted-foreground text-sm">{tour.description}</p>
-                <p className="text-gray-500 text-sm font-medium">{tour.price}</p>
+                <p className="text-muted-foreground text-sm line-clamp-3">{tour.description}</p>
+                <p className="text-green-600 text-sm font-semibold">{tour.price}</p>
               </CardContent>
 
               {/* Button */}
               <CardFooter>
                 <Button onClick={() => navigate("/booktour", {
                   state: {
-                    name: tour.name,
+                    id: tour._id,
+                    title: tour.title,
                     price: tour.price
                   }
                 })} className="w-full bg-green-600 hover:bg-green-700">Book Now</Button>

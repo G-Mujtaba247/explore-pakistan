@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import { Link, useNavigate } from "react-router"; // or "react-router-dom" depending on your version
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -27,13 +28,23 @@ const Login = () => {
     }
 
     setIsLoading(true);
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/v1/user/login", formData);
+      if (res.data.status) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+        localStorage.setItem("token", res.data.userToken);
+        alert("Login successful!");
+        navigate("/");
+        window.location.reload(); // To update Navbar state immediately
+      } else {
+        setError(res.data.message);
+      }
+    } catch (err) {
+      setError("Login failed. Please try again.");
+      console.error(err);
+    } finally {
       setIsLoading(false);
-      console.log("Logging in:", formData);
-      alert("Login successful!");
-      navigate("/");
-    }, 1500);
+    }
   };
 
   return (

@@ -11,7 +11,7 @@ const Footer = () => {
                 <div className="grid grid-cols-1 md:grid-cols-12 gap-2">
                     {/* Logo Section - Left */}
                     <div className="md:col-span-3">
-                       <img src="logo.png" alt="logo" className='w-50 h-50'/>
+                        <img src="logo.png" alt="logo" className='w-50 h-50' />
                     </div>
 
                     {/* Links Section - Middle */}
@@ -35,7 +35,7 @@ const Footer = () => {
                                 <li><NavLink to="/booktour" className="hover:text-black transition-colors">Bookings</NavLink></li>
                                 <li><NavLink to="/about" className="hover:text-black transition-colors">About</NavLink></li>
                                 <li><NavLink to="/contact" className="hover:text-black transition-colors">Contact</NavLink></li>
-                                <li><NavLink to="/support" className="hover:text-black transition-colors">Support</NavLink></li>
+                                <li><NavLink to="/contact" className="hover:text-black transition-colors">Support</NavLink></li>
                             </ul>
                         </div>
                         {/* Help */}
@@ -44,9 +44,9 @@ const Footer = () => {
                             <ul className="space-y-3 text-gray-600 text-sm">
                                 <li><NavLink to="/faq" className="hover:text-black transition-colors">FAQ</NavLink></li>
                                 <li><NavLink to="/contact" className="hover:text-black transition-colors">Contact</NavLink></li>
-                                <li><NavLink to="/safety" className="hover:text-black transition-colors">Safety</NavLink></li>
+                                <li><NavLink to="/policies" className="hover:text-black transition-colors">Safety</NavLink></li>
                                 <li><NavLink to="/policies" className="hover:text-black transition-colors">Policies</NavLink></li>
-                                <li><NavLink to="/updates" className="hover:text-black transition-colors">Updates</NavLink></li>
+                                <li><NavLink to="/" className="hover:text-black transition-colors">Updates</NavLink></li>
                             </ul>
                         </div>
                     </div>
@@ -72,14 +72,14 @@ const Footer = () => {
             <div className="max-w-7xl mx-auto mt-8 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
                 <p>© 2025 Explore Pakistan. All rights reserved.</p>
                 <div className="flex gap-6 my-4 md:my-0">
-                    <NavLink to="/privacy" className="hover:text-black transition-colors">Privacy Policy</NavLink>
+                    <NavLink to="/policies" className="hover:text-black transition-colors">Privacy Policy</NavLink>
                     <NavLink to="/terms" className="hover:text-black transition-colors">Terms of Service</NavLink>
-                    <NavLink to="/cookies" className="hover:text-black transition-colors">Cookies Settings</NavLink>
+                    <NavLink to="/policies" className="hover:text-black transition-colors">Cookies Settings</NavLink>
                 </div>
                 <div className="flex gap-4 text-black">
-                    <NavLink to="#" className="hover:text-blue-700 transition-colors"><FaFacebook size={20} /></NavLink>
-                    <NavLink to="#" className="hover:text-red-700 transition-colors"><FaInstagram size={20} /></NavLink>
-                    <NavLink to="#" className="hover:text-red-700 transition-colors"><FaYoutube size={20} /></NavLink>
+                    <NavLink to="/" className="hover:text-blue-700 transition-colors"><FaFacebook size={20} /></NavLink>
+                    <NavLink to="/" className="hover:text-red-700 transition-colors"><FaInstagram size={20} /></NavLink>
+                    <NavLink to="/" className="hover:text-red-700 transition-colors"><FaYoutube size={20} /></NavLink>
                 </div>
             </div>
         </footer>

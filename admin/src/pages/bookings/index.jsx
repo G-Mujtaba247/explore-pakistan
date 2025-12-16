@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import {
     MoreHorizontal,
 } from "lucide-react"
@@ -33,24 +35,35 @@ import {
     TabsTrigger,
 } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { bookings } from "@/data/bookings"
 
 export default function BookingsPage() {
+    const [bookings, setBookings] = useState([]);
+
+    useEffect(() => {
+        const fetchBookings = async () => {
+            try {
+                const res = await axios.get("http://localhost:5000/api/v1/bookings");
+                if (res.data.success) {
+                    setBookings(res.data.data);
+                }
+            } catch (error) {
+                console.error("Failed to fetch bookings");
+            }
+        };
+        fetchBookings();
+    }, []);
+
     // Filter bookings based on status
     const getFilteredBookings = (status) => {
         if (status === 'all') return bookings;
-        if (status === 'active') return bookings.filter(b => b.status === 'Confirmed' || b.status === 'Pending');
-        if (status === 'completed') return bookings.filter(b => b.status === 'Completed');
-        if (status === 'cancelled') return bookings.filter(b => b.status === 'Cancelled');
-        return bookings;
+        return bookings.filter(b => b.status.toLowerCase() === status.toLowerCase());
     }
 
     const renderTable = (data) => (
         <Table>
             <TableHeader>
                 <TableRow>
-                    <TableHead>ID</TableHead>
-                    <TableHead>Customer</TableHead>
+                    <TableHead>User</TableHead>
                     <TableHead>Tour</TableHead>
                     <TableHead className="hidden md:table-cell">Date</TableHead>
                     <TableHead className="hidden md:table-cell">Status</TableHead>
@@ -60,21 +73,23 @@ export default function BookingsPage() {
             </TableHeader>
             <TableBody>
                 {data.map((booking) => (
-                    <TableRow key={booking.id}>
-                        <TableCell className="font-medium text-xs">{booking.id}</TableCell>
-                        <TableCell className="font-medium">{booking.user}</TableCell>
-                        <TableCell>{booking.tour}</TableCell>
-                        <TableCell className="hidden md:table-cell">{booking.date}</TableCell>
+                    <TableRow key={booking._id}>
+                        <TableCell className="font-medium">
+                            {booking.userId?.name || booking.userId}
+                            <div className="text-xs text-muted-foreground">{booking.userId?.email}</div>
+                        </TableCell>
+                        <TableCell>{booking.tourName}</TableCell>
+                        <TableCell className="hidden md:table-cell">{new Date(booking.date).toLocaleDateString()}</TableCell>
                         <TableCell className="hidden md:table-cell">
                             <Badge variant={
-                                booking.status === 'Confirmed' ? 'default' :
-                                    booking.status === 'Pending' ? 'secondary' :
-                                        booking.status === 'Cancelled' ? 'destructive' : 'outline'
+                                booking.status === 'confirmed' ? 'default' :
+                                    booking.status === 'pending' ? 'secondary' :
+                                        booking.status === 'cancelled' ? 'destructive' : 'outline'
                             }>
                                 {booking.status}
                             </Badge>
                         </TableCell>
-                        <TableCell className="hidden md:table-cell">PKR {booking.amount.toLocaleString()}</TableCell>
+                        <TableCell className="hidden md:table-cell">{booking.price}</TableCell>
                         <TableCell>
                             <DropdownMenu>
                                 <DropdownMenuTrigger asChild>
@@ -86,7 +101,6 @@ export default function BookingsPage() {
                                 <DropdownMenuContent align="end">
                                     <DropdownMenuLabel>Actions</DropdownMenuLabel>
                                     <DropdownMenuItem>View Details</DropdownMenuItem>
-                                    <DropdownMenuItem>Edit Status</DropdownMenuItem>
                                 </DropdownMenuContent>
                             </DropdownMenu>
                         </TableCell>
@@ -102,11 +116,11 @@ export default function BookingsPage() {
                 <TabsList>
                     <TabsTrigger value="all">All</TabsTrigger>
                     <TabsTrigger value="active">Active</TabsTrigger>
-                    <TabsTrigger value="completed">Completed</TabsTrigger>
+                    <TabsTrigger value="confirmed">Confirmed</TabsTrigger>
                     <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
                 </TabsList>
             </div>
-            {['all', 'active', 'completed', 'cancelled'].map((tab) => (
+            {['all', 'active', 'confirmed', 'cancelled'].map((tab) => (
                 <TabsContent key={tab} value={tab}>
                     <Card>
                         <CardHeader>
@@ -116,11 +130,11 @@ export default function BookingsPage() {
                             </CardDescription>
                         </CardHeader>
                         <CardContent>
-                            {renderTable(getFilteredBookings(tab))}
+                            {renderTable(getFilteredBookings(tab === 'active' ? 'pending' : tab))}
                         </CardContent>
                         <CardFooter>
                             <div className="text-xs text-muted-foreground">
-                                Showing <strong>{getFilteredBookings(tab).length}</strong> bookings
+                                Showing <strong>{getFilteredBookings(tab === 'active' ? 'pending' : tab).length}</strong> bookings
                             </div>
                         </CardFooter>
                     </Card>
