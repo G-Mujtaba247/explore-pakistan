@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import { Home, Info, Phone, ArrowRight, Plus, Pencil, Trash2, FileText, Globe, Map } from 'lucide-react';
 import ReactQuill from 'react-quill-new';
@@ -24,9 +24,18 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from '@/components/ui/checkbox';
+import { LIST_WEBPAGES, CREATE_WEBPAGE, DELETE_WEBPAGE, UPDATE_WEBPAGE } from '@/resources/server-API';
+import axios from 'axios';
+import { useForm } from 'react-hook-form';
 
 export default function Webpages() {
-    // Static pages configuration for Explore Pakistan
+
+    const [dynamicPages, setDynamicPages] = useState([]);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [status, setStatus] = useState(false);
+    const [editorContent, setEditorContent] = useState('');
+    const { register, handleSubmit, reset, resetField } = useForm();
+
     const pages = [
         {
             name: 'Home Page',
@@ -58,52 +67,81 @@ export default function Webpages() {
         }
     ];
 
-    const [dynamicPages, setDynamicPages] = useState([
-        { id: 1, title: 'Privacy Policy', slug: 'privacy-policy', status: true, content: '<p>Standard Privacy Policy...</p>' },
-        { id: 2, title: 'Terms & Conditions', slug: 'terms', status: true, content: '<p>Terms of service...</p>' },
-    ]);
-    const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [currentPage, setCurrentPage] = useState(null);
-    const [editorContent, setEditorContent] = useState('');
+    const getWebpages = useCallback(async () => {
+        try {
+            const response = await axios.get(LIST_WEBPAGES);
+            if (response.data.status == true) {
+                setDynamicPages(response.data.webpages)
+            } else {
+                console.log("Axios error")
+            }
+        } catch (error) {
+            console.log("Error: ", error)
+        }
+    }, [])
+    useEffect(() => {
+        getWebpages();
+    }, [getWebpages]);
 
-    const handleSave = (e) => {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        const newPage = {
-            id: currentPage ? currentPage.id : Date.now(),
-            title: formData.get('title'),
-            slug: formData.get('slug'),
-            status: true, // Defaulting to true for demo
+    const handleSaveWebpage = async (data) => {
+        const myPage = {
+            title: data.title,
+            slug: data.slug,
+            status: status, //use state
             content: editorContent,
         };
 
-        if (currentPage) {
-            setDynamicPages(dynamicPages.map(p => p.id === currentPage.id ? { ...newPage, status: currentPage.status } : p));
-        } else {
-            setDynamicPages([...dynamicPages, newPage]);
+        try {
+            if (data?._id) {
+                const response = await axios.patch(`${UPDATE_WEBPAGE}/${data._id}`, myPage);
+                response.data.status == true ? getWebpages() : console.log("Axios error")
+            } else {
+                const response = await axios.post(CREATE_WEBPAGE, myPage);
+                response.data.status == true ? getWebpages() : console.log("Axios error")
+            }
+
+        } catch (error) {
+            console.log("Error: ", error)
         }
-        setIsDialogOpen(false);
-        setCurrentPage(null);
-        setEditorContent('');
+        closeModal();
     };
 
-    const handleDelete = (id) => {
+    const handleDelete = async (id) => {
         if (confirm('Are you sure you want to delete this page?')) {
-            setDynamicPages(dynamicPages.filter(p => p.id !== id));
+            try {
+                const response = await axios.delete(`${DELETE_WEBPAGE}/${id}`);
+                response.data.status == true ? getWebpages() : console.log("Axios error")
+            } catch (error) {
+                console.log("Error: ", error)
+            }
         }
+    };
+
+    const handleStatusChange = (value) => {
+        setStatus(value);
     };
 
     const openEdit = (page) => {
-        setCurrentPage(page);
-        setEditorContent(page.content || '');
+        reset(page);
         setIsDialogOpen(true);
+        setEditorContent(page.content);
+        setStatus(page.status);
     };
 
     const openAdd = () => {
-        setCurrentPage(null);
-        setEditorContent('');
+        resetField();
+        reset();
+        setEditorContent("");
+        setStatus(false);
         setIsDialogOpen(true);
     };
+
+    const closeModal = () => {
+        resetField();
+        setEditorContent("");
+        setStatus(false);
+        setIsDialogOpen(false);
+    }
 
     return (
         <div className="space-y-8">
@@ -181,8 +219,8 @@ export default function Webpages() {
                                         </TableCell>
                                         <TableCell>
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${page.status === true
-                                                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                                                : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400'
+                                                ? 'bg-green-100 text-green-800'
+                                                : 'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                                 {page.status ? 'Published' : 'Draft'}
                                             </span>
@@ -192,13 +230,20 @@ export default function Webpages() {
                                                 <Button variant="ghost" size="icon" onClick={() => openEdit(page)}>
                                                     <Pencil className="w-4 h-4" />
                                                 </Button>
-                                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => handleDelete(page.id)}>
+                                                <Button variant="ghost" size="icon" className="text-destructive hover:text-destructive" onClick={() => handleDelete(page._id)}>
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
                                             </div>
                                         </TableCell>
                                     </TableRow>
                                 ))}
+                                {dynamicPages.length === 0 && (
+                                    <TableRow>
+                                        <TableCell colSpan={4} className="text-center h-24 text-muted-foreground">
+                                            No dynamic pages found. Create one to get started.
+                                        </TableCell>
+                                    </TableRow>
+                                )}
                             </TableBody>
                         </Table>
                     </CardContent>
@@ -208,40 +253,47 @@ export default function Webpages() {
             <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
                     <DialogHeader>
-                        <DialogTitle>{currentPage ? 'Edit Page' : 'Create New Page'}</DialogTitle>
+                        <DialogTitle>Webpage</DialogTitle>
                         <DialogDescription>
-                            {currentPage ? 'Update page details.' : 'Add a new dynamic page to your website.'}
+                            Provide details for the dynamic page to your website.
                         </DialogDescription>
                     </DialogHeader>
-                    <form onSubmit={handleSave} className="space-y-4">
+                    <form onSubmit={handleSubmit(handleSaveWebpage)} className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
                                 <Label htmlFor="title">Page Title</Label>
-                                <Input id="title" name="title" defaultValue={currentPage?.title} placeholder="e.g. Terms of Service" required />
+                                <Input id="title" {...register('title')} placeholder="e.g. Our Services" required />
                             </div>
                             <div className="space-y-2">
                                 <Label htmlFor="slug">URL Slug</Label>
                                 <div className="flex items-center gap-2">
                                     <span className="text-muted-foreground text-sm">/</span>
-                                    <Input id="slug" name="slug" defaultValue={currentPage?.slug} placeholder="terms-of-service" required />
+                                    <Input id="slug" {...register('slug')} placeholder="our-services" required />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="status">Status</Label>
+                                <div className="flex items-center gap-3">
+                                    <Checkbox checked={status} onCheckedChange={handleStatusChange} id="terms" />
+                                    <Label htmlFor="terms">Publish webpage now?</Label>
                                 </div>
                             </div>
                         </div>
 
                         <div className="space-y-2">
                             <Label>Content</Label>
-                            <div className="mb-4">
+                            <div className="h-[300px] mb-12">
                                 <ReactQuill
                                     theme="snow"
                                     value={editorContent}
                                     onChange={setEditorContent}
-                                    className="h-[300px] mb-12"
+                                    className="h-full"
                                 />
                             </div>
                         </div>
 
-                        <DialogFooter className="mt-8">
-                            <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
+                        <DialogFooter>
+                            <Button type="button" variant="outline" onClick={closeModal}>Cancel</Button>
                             <Button type="submit">Save Page</Button>
                         </DialogFooter>
                     </form>

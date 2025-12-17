@@ -12,6 +12,7 @@ import SignUp from './pages/Auth/SignUp'
 import Booking from './pages/Booking'
 import BookTour from './components/Bookings/BookTour'
 import ProtectedRoute from './components/ProtectedRoute'
+import Page from './pages/Page'
 
 
 
@@ -36,8 +37,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
 
-
-
+        {/* Dynamic Pages */}
+        <Route path="/:slug" element={<Page />} />
 
       </Routes>
     </BrowserRouter>
