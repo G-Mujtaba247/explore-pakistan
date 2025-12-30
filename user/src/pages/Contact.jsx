@@ -1,6 +1,8 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import WebLayout from "@/layout/WebLayout";
+import axios from "axios";
 
 import {
   Card,
@@ -22,7 +24,30 @@ import {
 
 import { Mail, Phone, MapPin } from "lucide-react";
 
+const API_BASE_URL = "http://localhost:5000/api/v1";
+
 export default function Contact() {
+  const [contactData, setContactData] = useState({
+    phone: "+92 300 0000000",
+    email: "info@explorepakistan.com",
+    address: "Arfa Tower, Lahore, Pakistan",
+    map: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13611.01962830055!2d74.317488!3d31.481210!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391905bda2f42c0f%3A0xaea46777dae1f7a0!2sArfa%20Software%20Technology%20Park!5e0!3m2!1sen!2sPK!4v1700000000000"
+  });
+
+  useEffect(() => {
+    const fetchContactData = async () => {
+      try {
+        const response = await axios.get(`${API_BASE_URL}/website/contact`);
+        if (response.data.status === true && response.data.contact) {
+          setContactData(response.data.contact);
+        }
+      } catch (error) {
+        console.log("Error fetching contact data:", error);
+        // Using default values if API fails
+      }
+    };
+    fetchContactData();
+  }, []);
   return (
     <WebLayout>
       {/* ======================= HERO BANNER ======================= */}
@@ -48,10 +73,10 @@ export default function Contact() {
         {/* Left Cards */}
         <div className="space-y-6 ">
           {/* Card Template */}
-          {[ 
-            { icon: Mail, title: "Email Us", value: "info@explorepakistan.com" },
-            { icon: Phone, title: "Call Us", value: "+92 300 0000000" },
-            { icon: MapPin, title: "Visit Us", value: "Arfa Tower, Lahore, Pakistan" },
+          {[
+            { icon: Mail, title: "Email Us", value: contactData.email },
+            { icon: Phone, title: "Call Us", value: contactData.phone },
+            { icon: MapPin, title: "Visit Us", value: contactData.address },
           ].map((item, index) => (
             <Card
               key={index}
@@ -149,8 +174,8 @@ export default function Contact() {
 
         <Card className="overflow-hidden shadow-xl rounded-2xl border border-gray-200">
           <iframe
-            title="Arfa Tower Map"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13611.01962830055!2d74.317488!3d31.481210!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x391905bda2f42c0f%3A0xaea46777dae1f7a0!2sArfa%20Software%20Technology%20Park!5e0!3m2!1sen!2sPK!4v1700000000000"
+            title="Location Map"
+            src={contactData.map}
             width="100%"
             height="430"
             allowFullScreen=""

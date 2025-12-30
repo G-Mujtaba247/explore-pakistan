@@ -10,6 +10,7 @@ import UsersPage from "@/pages/Users"
 
 import Webpages from "@/pages/cms/Webpages"
 import HomeEditor from "@/pages/cms/HomeEditor"
+import Contact from "@/pages/cms/Contact"
 import Settings from "@/pages/Settings"
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         {/* CMS Routes */}
         <Route path="cms" element={<Webpages />} />
         <Route path="cms/home" element={<HomeEditor />} />
+        <Route path="cms/contact" element={<Contact />} />
         <Route path="cms/*" element={<Webpages />} />
 
 

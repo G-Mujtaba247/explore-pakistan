@@ -8,6 +8,7 @@ import userRoute from './routes/userRoute.js';
 import verifyUserRequest from './routes/verifyUserRequest.js';
 import bookingRoute from './routes/bookingRoute.js';
 import webpageRouter from './routes/webpageRoutes.js';
+import contactRouter from './routes/contactRoute.js';
 
 dotenv.config();
 
@@ -30,6 +31,7 @@ app.use(PREFIX, verifyUserRequest)
 app.use(PREFIX, toursRoute)
 app.use(PREFIX, bookingRoute)
 app.use(PREFIX, webpageRouter)
+app.use(PREFIX, contactRouter)
 
 connectDB().then(() => {
     app.listen(PORT, () => {
